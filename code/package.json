@@ -1,0 +1,10 @@
+{
+  "name": "abibo",
+  "version": "0.1.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@slack/web-api": "^5.1.0",
+    "@slack/webhook": "^5.0.1"
+  }
+}
