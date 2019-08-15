@@ -12,7 +12,7 @@ exports.handleEventCallback = async function(web, body) {
     await web.chat.postMessage({
       text: "Here to help!",
       channel: body.event.channel,
-      thread_ts: body.event.thread_ts
+      thread_ts: body.container.message_ts
     });
     return { statusCode: 200 };
   }

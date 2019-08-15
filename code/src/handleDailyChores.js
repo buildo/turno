@@ -1,15 +1,24 @@
-const message = `
-Hi @gabro! Today is your turn :-). Here's a list of stuff:
+const sample = require("lodash.sample");
 
- - svuotare lavastoviglie
- - ruotare sacchi
+async function dailyMessage(web) {
+  const users = (await web.users.list({})).members.filter(
+    u => !u.is_restricted && !u.is_bot && !u.is_stranger && !u.deleted
+  );
+  const owner = sample(users);
 
-If you're busy, simply reply HALP in the thread -->
-`;
+  return `Ciao @${
+    owner.profile.display_name
+  }! Oggi è il tuo turno, ecco le cose da fare:`;
+}
+
+exports.dailyMessage = dailyMessage;
 
 exports.handleDailyChores = async function(web) {
+  const message = await dailyMessage(web);
+
+  const chores = ["Far partire lavastoviglie", "Scongelare pane"];
+
   await web.chat.postMessage({
-    text: message,
     channel: "abibo-test",
     link_names: true,
     blocks: [
@@ -17,32 +26,42 @@ exports.handleDailyChores = async function(web) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: "Far partire lavastoviglie"
+          text: message
+        }
+      },
+      ...chores.map(chore => ({
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: chore
         },
         accessory: {
           type: "button",
           text: {
             type: "plain_text",
-            text: "Mark as done"
+            text: ":ballot_box_with_check:  Segna come fatto"
           },
-          value: "lavastoviglie_done",
-          action_id: "lavastoviglie_done"
+          value: chore
         }
+      })),
+      {
+        type: "divider"
       },
       {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: "Scongelare pane"
+          text:
+            "Se l'owner non può, clicca qui per scegliere un altro owner a caso"
         },
         accessory: {
           type: "button",
           text: {
             type: "plain_text",
-            text: "Mark as done"
+            text: ":game_die:  Scegli nuovo owner",
+            emoji: true
           },
-          value: "pane_done",
-          action_id: "pane_done"
+          value: "shuffle"
         }
       }
     ]
