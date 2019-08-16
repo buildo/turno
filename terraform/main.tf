@@ -160,7 +160,7 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
 resource "aws_cloudwatch_event_rule" "event_rule" {
   name                = "TurnoDailyChores"
   description         = "Publish turno daily chores"
-  schedule_expression = "cron(10 08 * * ? *)"
+  schedule_expression = "cron(10 08 ? * MON-FRI *)"
 }
 
 resource "aws_cloudwatch_event_target" "event_target" {
