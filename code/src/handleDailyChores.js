@@ -2,7 +2,12 @@ const sample = require("lodash.sample");
 
 async function dailyMessage(web) {
   const users = (await web.users.list({})).members.filter(
-    u => !u.is_restricted && !u.is_bot && !u.is_stranger && !u.deleted
+    u =>
+      !u.is_restricted &&
+      !u.is_bot &&
+      !u.is_stranger &&
+      !u.deleted &&
+      u.name !== "slackbot"
   );
   const owner = sample(users);
 
