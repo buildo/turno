@@ -156,3 +156,23 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
   role       = "${aws_iam_role.iam_role.name}"
   policy_arn = "${aws_iam_policy.lambda_logging.arn}"
 }
+
+resource "aws_cloudwatch_event_rule" "event_rule" {
+  name                = "TurnoDailyChores"
+  description         = "Publish turno daily chores"
+  schedule_expression = "cron(10 12 * * ? *)"
+}
+
+resource "aws_cloudwatch_event_target" "event_target" {
+  rule  = "${aws_cloudwatch_event_rule.event_rule.name}"
+  arn   = "${aws_lambda_function.lambda.arn}"
+  input = "{\"body\": \"{\\\"type\\\": \\\"daily_chores\\\"}\"}"
+}
+
+resource "aws_lambda_permission" "event_rule_permission" {
+  statement_id  = "AllowExecutionFromCloudWatch"
+  action        = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.lambda.function_name}"
+  principal     = "events.amazonaws.com"
+  source_arn    = "${aws_cloudwatch_event_rule.event_rule.arn}"
+}
