@@ -6,9 +6,7 @@ async function dailyMessage(web) {
   );
   const owner = sample(users);
 
-  return `Ciao @${
-    owner.profile.display_name
-  }! Oggi è il tuo turno, ecco le cose da fare:`;
+  return `Ciao <@${owner.id}>! Oggi è il tuo turno, ecco le cose da fare:`;
 }
 
 exports.dailyMessage = dailyMessage;
@@ -16,7 +14,11 @@ exports.dailyMessage = dailyMessage;
 exports.handleDailyChores = async function(web) {
   const message = await dailyMessage(web);
 
-  const chores = ["Far partire lavastoviglie", "Scongelare pane"];
+  const chores = [
+    "Far partire lavastoviglie",
+    "Scongelare pane",
+    "Ritirare i nutribees"
+  ];
 
   await web.chat.postMessage({
     channel: "abibo-test",

@@ -1,5 +1,6 @@
 const axios = require("axios").default;
 const { dailyMessage } = require("./handleDailyChores");
+const { sendToMetro } = require("./db");
 
 exports.handleBlockAction = async function(web, body) {
   if (body.actions[0].value === "shuffle") {
@@ -14,7 +15,7 @@ exports.handleBlockAction = async function(web, body) {
           ...block,
           text: {
             ...block.text,
-            text: `~${block.text.text}~ (grazie @${body.user.username} :pray:)`
+            text: `~${block.text.text}~ (grazie <@${body.user.id}> :pray:)`
           },
           accessory: undefined
         };
@@ -27,6 +28,8 @@ exports.handleBlockAction = async function(web, body) {
     replace_original: true,
     ...newMessage
   });
+
+  await sendToMetro(body);
 
   return { statusCode: 200 };
 };

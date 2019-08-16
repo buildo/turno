@@ -40,6 +40,10 @@ data "aws_ssm_parameter" "slack_api_key" {
   name = "/${local.project_name}/slack_api_token"
 }
 
+data "aws_ssm_parameter" "metro_db_writer_password" {
+  name = "/${local.project_name}/metro_db_writer_password"
+}
+
 resource "aws_lambda_function" "lambda" {
   filename         = local.lambda_zip_path
   function_name    = local.project_name
@@ -50,6 +54,11 @@ resource "aws_lambda_function" "lambda" {
   environment {
     variables = {
       SLACK_API_KEY = data.aws_ssm_parameter.slack_api_key.value
+      PGHOST        = "metro.c4vk4pxr1ldu.eu-central-1.rds.amazonaws.com"
+      PGUSER        = "writer"
+      PGPASSWORD    = data.aws_ssm_parameter.metro_db_writer_password.value
+      PGDATABASE    = "metro"
+      PGPORT        = "5432"
     }
   }
 
