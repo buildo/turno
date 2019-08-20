@@ -1,29 +1,22 @@
-const sample = require("lodash.sample");
+const { randomUser } = require("./users");
+const { chores } = require("./chores");
 
-async function dailyMessage(web) {
-  const users = (await web.users.list({})).members.filter(
-    u =>
-      !u.is_restricted &&
-      !u.is_bot &&
-      !u.is_stranger &&
-      !u.deleted &&
-      u.name !== "slackbot"
-  );
-  const owner = sample(users);
-
+async function dailyMessage(owner) {
   return `Ciao <@${owner.id}>! Oggi è il tuo turno, ecco le cose da fare:`;
 }
 
 exports.dailyMessage = dailyMessage;
 
 exports.handleDailyChores = async function(web) {
-  const message = await dailyMessage(web);
+  const owner = await randomUser(web);
+  const message = await dailyMessage(owner);
 
-  const chores = [
-    "Far partire lavastoviglie",
-    "Scongelare pane",
-    "Ritirare i nutribees"
-  ];
+  const todayWeekday = new Intl.DateTimeFormat("en-US", {
+    weekday: "short"
+  }).format(new Date());
+  const todayChores = chores.filter(
+    chore => !chore.weekdays || chore.weekdays.includes(todayWeekday)
+  );
 
   await web.chat.postMessage({
     channel: "abibo-test",
@@ -36,11 +29,11 @@ exports.handleDailyChores = async function(web) {
           text: message
         }
       },
-      ...chores.map(chore => ({
+      ...todayChores.map(chore => ({
         type: "section",
         text: {
           type: "mrkdwn",
-          text: chore
+          text: `*${chore.title}*\n_${chore.description}_`
         },
         accessory: {
           type: "button",
@@ -48,7 +41,7 @@ exports.handleDailyChores = async function(web) {
             type: "plain_text",
             text: ":ballot_box_with_check:  Segna come fatto"
           },
-          value: chore
+          value: chore.id
         }
       })),
       {
