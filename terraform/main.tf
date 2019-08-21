@@ -10,7 +10,7 @@ locals {
 }
 
 resource "aws_iam_role" "iam_role" {
-name = "${local.project_name}_iam_role"
+  name = "${local.project_name}_iam_role"
 
   assume_role_policy = <<EOF
 {
