@@ -2,7 +2,9 @@ const { randomUser } = require("./users");
 const { chores } = require("./chores");
 
 async function dailyMessage(owner) {
-  return `Ciao <@${owner.id}>! Oggi è il tuo turno, ecco le cose da fare:`;
+  return `Ciao <@${
+    owner.id
+  }>! Oggi è il tuo turno, qui sotto trovi le cose da fare.\n\nChiunque può aiutare e <@ULQ0WAXFT> se ne ricorderà!`;
 }
 
 exports.dailyMessage = dailyMessage;
@@ -19,7 +21,7 @@ exports.handleDailyChores = async function(web) {
   );
 
   await web.chat.postMessage({
-    channel: "abibo-test",
+    channel: "food",
     link_names: true,
     blocks: [
       {
@@ -33,7 +35,7 @@ exports.handleDailyChores = async function(web) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: `*${chore.title}*\n_${chore.description}_`
+          text: `*${chore.title}*\n${chore.description}`
         },
         accessory: {
           type: "button",
@@ -52,13 +54,13 @@ exports.handleDailyChores = async function(web) {
         text: {
           type: "mrkdwn",
           text:
-            "Se l'owner non può, clicca qui per scegliere un altro owner a caso"
+            "Se l'incaricato/a non può, clicca qui per scegliere un'altra persona a caso"
         },
         accessory: {
           type: "button",
           text: {
             type: "plain_text",
-            text: ":game_die:  Scegli nuovo owner",
+            text: ":game_die:  Scegli nuovo incaricato/a",
             emoji: true
           },
           value: "shuffle"
