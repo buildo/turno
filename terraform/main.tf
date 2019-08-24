@@ -30,10 +30,22 @@ EOF
 
 }
 
+resource "null_resource" "ts-build" {
+  triggers = {
+    timestamp = timestamp()
+  }
+  provisioner "local-exec" {
+    working_dir = "../code"
+    command     = "yarn install && yarn build && cp -r node_modules build/"
+  }
+}
+
 data "archive_file" "lambda" {
   type        = "zip"
-  source_dir  = "${path.module}/../code"
+  source_dir  = "${path.module}/../code/build"
   output_path = local.lambda_zip_path
+
+  depends_on = [null_resource.ts-build]
 }
 
 data "aws_ssm_parameter" "slack_api_key" {
