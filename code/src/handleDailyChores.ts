@@ -1,28 +1,28 @@
-const { randomUser } = require("./users");
-const { chores } = require("./chores");
+import { randomUser } from "./users";
+import { chores, Weekday } from "./chores";
+import { WebClient } from "@slack/web-api";
+import { User } from "./model";
 
-async function dailyMessage(owner) {
-  return `Ciao <@${
-    owner.id
-  }>! Oggi è il tuo turno, qui sotto trovi le cose da fare.\n\nChiunque può aiutare e <@ULQ0WAXFT> se ne ricorderà!`;
-}
+const turnoBotUserId = "ULQ0WAXFT";
+export const dailyMessage = async (owner: User) =>
+  `Ciao <@${owner.id}>! Oggi è il tuo turno, qui sotto trovi le cose da fare.\n\nChiunque può aiutare e <@${turnoBotUserId}> se ne ricorderà!`;
 
-exports.dailyMessage = dailyMessage;
-
-exports.handleDailyChores = async function(web) {
+export const handleDailyChores = async (web: WebClient, channel?: string) => {
   const owner = await randomUser(web);
   const message = await dailyMessage(owner);
 
   const todayWeekday = new Intl.DateTimeFormat("en-US", {
     weekday: "short"
-  }).format(new Date());
+  }).format(new Date()) as Weekday;
+
   const todayChores = chores.filter(
     chore => !chore.weekdays || chore.weekdays.includes(todayWeekday)
   );
 
   await web.chat.postMessage({
-    channel: "food",
+    channel: channel || "food",
     link_names: true,
+    text: message,
     blocks: [
       {
         type: "section",

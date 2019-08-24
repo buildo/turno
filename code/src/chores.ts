@@ -1,17 +1,13 @@
-/**
- * @typedef {'Mon'|'Tue'|'Wed'|'Thu'|'Fri'|'Sat'|'Sun'} Weekday
- *
- * @typedef {object} Chore
- * @prop {string} id
- * @prop {string} title
- * @prop {string} [description]
- * @prop {Array<Weekday>} [weekdays]
- */
+export type Weekday = "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat" | "Sun";
 
-/**
- * @type Array<Chore>
- */
-exports.chores = [
+interface Chore {
+  id: string;
+  title: string;
+  description?: string;
+  weekdays?: Array<Weekday>;
+}
+
+export const chores: Array<Chore> = [
   {
     id: "recuperare_stoviglie_in_giro",
     title: ":tumbler_glass: Recuperare bicchieri e tazzine in giro",
