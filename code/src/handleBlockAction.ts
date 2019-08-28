@@ -5,6 +5,8 @@ import { randomUser } from "./users";
 import { WebClient, SectionBlock } from "@slack/web-api";
 import { EventBody } from "./model";
 
+const helpSuffix = "__HELP";
+
 export const handleBlockAction = async (web: WebClient, body: EventBody) => {
   if (body.actions[0].value === "shuffle") {
     return handleShuffle(web, body);
@@ -23,11 +25,16 @@ export const handleBlockAction = async (web: WebClient, body: EventBody) => {
           ...block,
           text: {
             ...block.text,
-            text: `~${block.text!.text.split("\n")[0]}~ (grazie <@${
-              body.user.id
-            }> :pray:)`
+            text: thankUser(block.text!.text, `<@${body.user.id}>`)
           },
-          accessory: undefined
+          accessory: {
+            type: "button",
+            text: {
+              type: "plain_text",
+              text: ":handshake: Segna di aver aiutato"
+            },
+            value: block.accessory.value!.replace(helpSuffix, "") + helpSuffix
+          }
         };
       }
       return block;
@@ -43,6 +50,19 @@ export const handleBlockAction = async (web: WebClient, body: EventBody) => {
 
   return { statusCode: 200 };
 };
+
+function thankUser(text: string, user: string): string {
+  if (text.includes("~")) {
+    const regex = /(~.+~\s*\(grazie )(.*)( :pray:.*\))/;
+    const users = text.match(regex)![2].split(" ");
+    console.log(users);
+    const newUsers = [...users, user].join(" ");
+    console.log(newUsers);
+    return text.replace(regex, `$1${newUsers}$3`);
+  } else {
+    return `~${text.split("\n")[0]}~ (grazie ${user} :pray:)`;
+  }
+}
 
 async function handleShuffle(web: WebClient, body: EventBody) {
   const newOwner = await randomUser(web);
@@ -67,7 +87,7 @@ async function handleShuffle(web: WebClient, body: EventBody) {
   });
 
   await web.chat.postMessage({
-    text: `:wave: <@${newOwner.id}>, ora l'owner sei tu!`,
+    text: `:wave: <@${newOwner.id}>, ora l'incaricato/a sei tu!`,
     channel: body.channel.id,
     thread_ts: body.message.ts
   });
