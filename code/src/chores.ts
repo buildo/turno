@@ -18,7 +18,7 @@ export const chores: Array<Chore> = [
     id: "sistemare_area_relax",
     title: ":coffee: Sistemare area relax",
     description:
-      "Pulire il bancone da briciole e macchie, buttare confenzioni finite dalla dispenza, buttare frutta marcia"
+      "Buttare l'umido sotto il lavello, pulire il bancone da briciole e macchie, buttare confenzioni finite dalla dispensa, buttare frutta marcia"
   },
   {
     id: "scongelare_pane",
