@@ -12,7 +12,7 @@ export const chores: Array<Chore> = [
     id: "recuperare_stoviglie_in_giro",
     title: ":tumbler_glass: Recuperare bicchieri e tazzine in giro",
     description:
-      "vanno recuperati da tavoli e scrivanie e 'ribilanciati' (tazzine in area relax, maggior parte dei bicchieri in loft 2)"
+      "Vanno recuperati da tavoli e scrivanie e 'ribilanciati' (tazzine in area relax, maggior parte dei bicchieri in loft 2)"
   },
   {
     id: "sistemare_area_relax",
