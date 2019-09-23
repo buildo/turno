@@ -18,7 +18,7 @@ export const chores: Array<Chore> = [
     id: "sistemare_area_relax",
     title: ":coffee: Sistemare area relax",
     description:
-      "Buttare l'umido sotto il lavello, pulire il bancone da briciole e macchie, buttare confenzioni finite dalla dispensa, buttare frutta marcia"
+      "Pulire il bancone da briciole e macchie, buttare confezioni finite dalla dispensa, buttare frutta marcia"
   },
   {
     id: "scongelare_pane",
@@ -28,9 +28,9 @@ export const chores: Array<Chore> = [
   },
   {
     id: "svuotare_cestini_loft2",
-    title: ":recycle: Svuotare i cestini loft 2",
+    title: ":recycle: Svuotare i cestini loft 2 e area relax",
     description:
-      "Plastica e umido sempre, indefferenziato se pieno. <https://paper.dropbox.com/doc/procedures-Lunch--AjQNCWvWlI2o19IitXq3gNzwAg-SvxCHMPUkG2c7BkfR8QZ2#:h2=Svuotare-cestini|Istruzioni qui>",
+      "Loft 2: plastica e umido sempre, indifferenziato se pieno. Area relax: umido sotto il lavello sempre. <https://paper.dropbox.com/doc/procedures-Lunch--AjQNCWvWlI2o19IitXq3gNzwAg-SvxCHMPUkG2c7BkfR8QZ2#:h2=Svuotare-cestini|Istruzioni qui>",
     weekdays: ["Tue", "Thu"]
   },
   {
