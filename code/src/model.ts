@@ -16,6 +16,10 @@ export interface Message {
 
 export interface Action {
   value?: string;
+  block_id: string;
+  selected_option?: {
+    value?: string;
+  };
 }
 
 export interface Channel {

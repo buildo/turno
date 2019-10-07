@@ -1,5 +1,5 @@
 import { randomUser } from "./users";
-import { chores, Weekday } from "./chores";
+import { weekChores, Weekday, saltuaryChores } from "./chores";
 import { WebClient } from "@slack/web-api";
 import { User } from "./model";
 
@@ -15,7 +15,7 @@ export const handleDailyChores = async (web: WebClient, channel?: string) => {
     weekday: "short"
   }).format(new Date()) as Weekday;
 
-  const todayChores = chores.filter(
+  const todayChores = weekChores.filter(
     chore => !chore.weekdays || chore.weekdays.includes(todayWeekday)
   );
 
@@ -46,6 +46,28 @@ export const handleDailyChores = async (web: WebClient, channel?: string) => {
           value: chore.id
         }
       })),
+      {
+        type: "divider"
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text:
+            ":hand: Hai fatto un'attività non settimanale? Aggiungila scegliendola dalla lista e poi segnala come fatta"
+        },
+        block_id: "saltuary_chores",
+        accessory: {
+          type: "static_select",
+          options: saltuaryChores.map(chore => ({
+            text: {
+              type: "plain_text",
+              text: chore.title
+            },
+            value: chore.id
+          }))
+        }
+      },
       {
         type: "divider"
       },

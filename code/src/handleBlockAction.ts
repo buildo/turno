@@ -4,6 +4,7 @@ import { sendToMetro } from "./db";
 import { randomUser } from "./users";
 import { WebClient, SectionBlock } from "@slack/web-api";
 import { EventBody } from "./model";
+import { saltuaryChores } from "./chores";
 
 const helpSuffix = "__HELP";
 
@@ -12,6 +13,14 @@ export const handleBlockAction = async (web: WebClient, body: EventBody) => {
     return handleShuffle(web, body);
   }
 
+  if (body.actions[0].block_id === "saltuary_chores") {
+    return handleSaltuaryActivity(body);
+  }
+
+  return handleHelp(body);
+};
+
+async function handleHelp(body: EventBody) {
   const newMessage = {
     ...body.message,
     blocks: body.message.blocks.map(block => {
@@ -27,14 +36,7 @@ export const handleBlockAction = async (web: WebClient, body: EventBody) => {
             ...block.text,
             text: thankUser(block.text!.text, `<@${body.user.id}>`)
           },
-          accessory: {
-            type: "button",
-            text: {
-              type: "plain_text",
-              text: ":handshake: Segna di aver aiutato"
-            },
-            value: block.accessory.value!.replace(helpSuffix, "") + helpSuffix
-          }
+          accessory: helpAccessory(block.accessory.value!)
         };
       }
       return block;
@@ -49,7 +51,18 @@ export const handleBlockAction = async (web: WebClient, body: EventBody) => {
   await sendToMetro(body);
 
   return { statusCode: 200 };
-};
+}
+
+function helpAccessory(value: string) {
+  return {
+    type: "button",
+    text: {
+      type: "plain_text",
+      text: ":handshake: Segna di aver aiutato"
+    },
+    value: value!.replace(helpSuffix, "") + helpSuffix
+  };
+}
 
 function thankUser(text: string, user: string): string {
   if (text.includes("~")) {
@@ -92,5 +105,43 @@ async function handleShuffle(web: WebClient, body: EventBody) {
     thread_ts: body.message.ts
   });
 
+  return { statusCode: 200 };
+}
+
+async function handleSaltuaryActivity(body: EventBody) {
+  const chore = saltuaryChores.find(
+    c => c.id === body.actions[0].selected_option!.value
+  );
+  const choresPickerIndex = body.message.blocks.findIndex(
+    b => b.block_id === "saltuary_chores"
+  );
+  if (chore) {
+    const newMessage = {
+      ...body.message,
+      blocks: [
+        ...body.message.blocks.slice(0, choresPickerIndex + 1),
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: `*${chore.title}*\n${chore.description || ""}`
+          },
+          accessory: {
+            type: "button",
+            text: {
+              type: "plain_text",
+              text: ":ballot_box_with_check:  Segna come fatto"
+            },
+            value: chore.id
+          }
+        },
+        ...body.message.blocks.slice(choresPickerIndex + 1)
+      ]
+    };
+    await axios.post(body.response_url, {
+      replace_original: true,
+      ...newMessage
+    });
+  }
   return { statusCode: 200 };
 }

@@ -7,7 +7,7 @@ interface Chore {
   weekdays?: Array<Weekday>;
 }
 
-export const chores: Array<Chore> = [
+export const weekChores: Array<Chore> = [
   {
     id: "recuperare_stoviglie_in_giro",
     title: ":tumbler_glass: Recuperare bicchieri e tazzine in giro",
@@ -64,5 +64,24 @@ export const chores: Array<Chore> = [
     id: "svuotare_lavastoviglie_area_relax",
     title: ":knife_fork_plate: Svuotare lavastoviglie area relax",
     description: "Da fare entro sera"
+  }
+];
+
+export const saltuaryChores: Array<Chore> = [
+  {
+    id: "sistemare_spesa",
+    title: ":shopping_trolley: Sistemare la spesa"
+  },
+  {
+    id: "ordinare_spesa",
+    title: ":shopping_trolley: Ordinare la spesa"
+  },
+  {
+    id: "sistemare_cortilia",
+    title: ":apple: Sistemare Cortilia"
+  },
+  {
+    id: "pulire_macchinetta_caffè",
+    title: ":coffee:️ Pulire macchinetta caffè area relax"
   }
 ];
