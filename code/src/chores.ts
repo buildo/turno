@@ -83,5 +83,9 @@ export const saltuaryChores: Array<Chore> = [
   {
     id: "pulire_macchinetta_caffè",
     title: ":coffee:️ Pulire macchinetta caffè area relax"
+  },
+  {
+    id: "ordinare_nutribees",
+    title: ":bee:️ Ordinare Nutribees per la prossima settimana"
   }
 ];
