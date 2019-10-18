@@ -87,5 +87,13 @@ export const saltuaryChores: Array<Chore> = [
   {
     id: "ordinare_nutribees",
     title: ":bee:️ Ordinare Nutribees per la prossima settimana"
+  },
+  {
+    id: "frullare_frutta",
+    title: ":fruit:️ :boom: Frullare frutta"
+  },
+  {
+    id: "pulire_frutta",
+    title: ":fruit:️ :knife: Tagliare/Servire frutta"
   }
 ];
