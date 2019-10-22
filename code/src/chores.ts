@@ -90,10 +90,10 @@ export const saltuaryChores: Array<Chore> = [
   },
   {
     id: "frullare_frutta",
-    title: ":fruit:️ :boom: Frullare frutta"
+    title: ":tropical_drink: Frullare frutta"
   },
   {
     id: "pulire_frutta",
-    title: ":fruit:️ :knife: Tagliare/Servire frutta"
+    title: ":melon: :knife: Tagliare/Servire frutta"
   }
 ];
