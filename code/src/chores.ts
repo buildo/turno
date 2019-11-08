@@ -89,6 +89,12 @@ export const saltuaryChores: Array<Chore> = [
     title: ":bee:️ Ordinare Nutribees per la prossima settimana"
   },
   {
+    id: "ordinare_casual_lunch",
+    title: ":taco: Ordinare casual lunch",
+    description:
+      "Include tutti task collegati all'ordine del casual lunch (sondaggio, setup, e ordinazione)"
+  },
+  {
     id: "frullare_frutta",
     title: ":tropical_drink: Frullare frutta"
   },
