@@ -33,3 +33,10 @@ export interface EventBody {
   actions: Array<Action>;
   response_url: string;
 }
+
+export interface EventCallback {
+  type: string;
+  user: string;
+  channel: string;
+  tab?: string;
+}

@@ -2,6 +2,7 @@ import { WebClient } from "@slack/web-api";
 import { handleUrlVerification } from "./src/handleUrlVerification";
 import { handleDailyChores } from "./src/handleDailyChores";
 import { handleBlockAction } from "./src/handleBlockAction";
+import { handleEventCallback } from "./src/handleEventCallback";
 import * as querystring from "querystring";
 
 const token = process.env.SLACK_API_KEY;
@@ -34,6 +35,8 @@ exports.handler = async (event: any) => {
       return handleDailyChores(web, body.channel);
     case "block_actions":
       return handleBlockAction(web, body);
+    case "event_callback":
+      return handleEventCallback(web, body.event);
     default:
       console.log("Unhandled request", event);
       return unhandledMessage;

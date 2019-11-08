@@ -68,9 +68,7 @@ function thankUser(text: string, user: string): string {
   if (text.includes("~")) {
     const regex = /(~.+~\s*\(grazie )(.*)( :pray:.*\))/;
     const users = text.match(regex)![2].split(" ");
-    console.log(users);
     const newUsers = [...users, user].join(" ");
-    console.log(newUsers);
     return text.replace(regex, `$1${newUsers}$3`);
   } else {
     return `~${text.split("\n")[0]}~ (grazie ${user} :pray:)`;
