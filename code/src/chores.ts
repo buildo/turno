@@ -81,6 +81,10 @@ export const saltuaryChores: Array<Chore> = [
     title: ":apple: Sistemare Cortilia"
   },
   {
+    id: "ordinare_cortilia",
+    title: ":apple: Ordinare Cortilia"
+  },
+  {
     id: "pulire_macchinetta_caffè",
     title: ":coffee:️ Pulire macchinetta caffè area relax"
   },
