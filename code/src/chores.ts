@@ -105,5 +105,9 @@ export const saltuaryChores: Array<Chore> = [
   {
     id: "pulire_frutta",
     title: ":melon: :knife: Tagliare/Servire frutta"
+  },
+  {
+    id: "ritirare_pacchi",
+    title: ":package: Ritirare pacchi in portineria"
   }
 ];
