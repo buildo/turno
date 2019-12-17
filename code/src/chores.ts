@@ -109,5 +109,10 @@ export const saltuaryChores: Array<Chore> = [
   {
     id: "ritirare_pacchi",
     title: ":package: Ritirare pacchi in portineria"
+  },
+  {
+    id: "pulizia_straordinaria",
+    title:
+      "🧹 Pulizia straordinaria (ad esempio, dopo un Meetup o per una cena)"
   }
 ];
