@@ -114,5 +114,15 @@ export const saltuaryChores: Array<Chore> = [
     id: "pulizia_straordinaria",
     title:
       "🧹 Pulizia straordinaria (ad esempio, dopo un Meetup o per una cena)"
+  },
+  {
+    id: "montare",
+    title:
+      "🛠 Montaggio mobili"
+  },
+  {
+    id: "riparare",
+    title:
+      "☭ Riparazione loft (ad esempio lampadine, termostati, ...)"
   }
 ];
